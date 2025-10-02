@@ -17,56 +17,58 @@
     *{box-sizing:border-box;font-family:Inter, system-ui, Arial, sans-serif}
     body{margin:0;background:var(--bg);color:#111;padding:24px;display:flex;justify-content:center}
     .container{width:100%;max-width:var(--max-width)}
-    h1{margin:0 0 12px;font-size:20px}
-    .card{background:var(--card);padding:16px;border-radius:8px;box-shadow:0 1px 6px rgba(16,24,40,0.06);margin-bottom:16px}
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input[type="text"], input[type="date"]{width:100%;padding:8px 10px;border:1px solid #e5e7eb;border-radius:6px}
-    .grid{display:grid;gap:12px}
+    h1{margin:0 0 16px;font-size:22px;text-align:center}
+    .card{background:var(--card);padding:20px;border-radius:10px;box-shadow:0 2px 12px rgba(16,24,40,0.1);margin-bottom:20px}
+    label{display:block;font-size:14px;color:var(--muted);margin-bottom:6px}
+    input[type="text"], input[type="date"]{width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:8px;outline:none;font-size:14px}
+    input[type="text"]:focus, input[type="date"]:focus{border-color:var(--blue)}
+    .grid{display:grid;gap:14px}
     .grid-cols-3{grid-template-columns:repeat(3,1fr)}
     .grid-cols-2{grid-template-columns:repeat(2,1fr)}
-    .btn{display:inline-block;padding:8px 12px;border-radius:6px;border:none;cursor:pointer}
+    .btn{display:inline-block;padding:10px 16px;border-radius:8px;border:none;cursor:pointer;font-size:14px;transition:0.2s}
     .btn-primary{background:var(--blue);color:white}
+    .btn-primary:hover{background:#115293}
     .btn-ghost{background:transparent;border:1px solid #e5e7eb}
+    .btn-ghost:hover{background:#f0f0f0}
     .table{width:100%;border-collapse:collapse}
-    .table th, .table td{padding:10px;border-bottom:1px solid #eef2f7;text-align:left;font-size:14px}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;color:white}
+    .table th, .table td{padding:12px;border-bottom:1px solid #eef2f7;text-align:left;font-size:14px}
+    .badge{display:inline-block;padding:6px 12px;border-radius:999px;font-size:13px;color:white}
     .badge.inuse{background:var(--orange)}
     .badge.returned{background:var(--green)}
     .small{font-size:13px;color:var(--muted)}
     .actions button{margin-right:6px}
-    .alert{background:#fff4e5;border-left:4px solid var(--orange);padding:10px;border-radius:6px;margin-bottom:12px}
+    .alert{background:#fff4e5;border-left:4px solid var(--orange);padding:12px;border-radius:8px;margin-bottom:16px}
     .muted{color:var(--muted)}
-    .flex{display:flex;gap:8px;align-items:center}
+    .flex{display:flex;gap:10px;align-items:center}
     .right{margin-left:auto}
-    .pill{background:#eef2ff;color:var(--blue);padding:6px 10px;border-radius:999px;font-size:13px}
+    .pill{background:#eef2ff;color:var(--blue);padding:6px 12px;border-radius:999px;font-size:13px}
     @media(max-width:800px){
-      .grid-cols-3{grid-template-columns:1fr}
-      .grid-cols-2{grid-template-columns:1fr}
+      .grid-cols-3, .grid-cols-2{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🚚Sistema de Registro de Carrinhos — Saída & Devolução</h1>
+    <h1>Sistema de Registro de Carrinhos — Saída & Devolução</h1>
 
     <!-- Formulário de Saída -->
     <div class="card">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="flex:1">
+      <div class="grid grid-cols-3">
+        <div>
           <label for="nome">Funcionário</label>
           <input id="nome" type="text" placeholder="Nome completo (ex: João Silva)" />
         </div>
-        <div style="width:140px">
+        <div>
           <label for="c1">Carrinho 1</label>
           <input id="c1" type="text" placeholder="A001" />
         </div>
-        <div style="width:140px">
+        <div>
           <label for="c2">Carrinho 2 (opcional)</label>
           <input id="c2" type="text" placeholder="A002" />
         </div>
       </div>
 
-      <div class="grid grid-cols-3" style="margin-top:12px">
+      <div class="grid grid-cols-3" style="margin-top:16px; align-items:end">
         <div>
           <label for="dataSaida">Data de Saída</label>
           <input id="dataSaida" type="date" />
@@ -75,11 +77,11 @@
           <label for="dataPrevista">Data Prevista de Devolução (opcional)</label>
           <input id="dataPrevista" type="date" />
         </div>
-        <div style="display:flex;align-items:end;justify-content:flex-end">
+        <div style="text-align:right">
           <button id="btnRegistrar" class="btn btn-primary">Registrar Saída</button>
         </div>
       </div>
-      <p class="small" style="margin-top:10px">Dica: preencha a data prevista para que o sistema alerte automaticamente quando o carrinho estiver atrasado.</p>
+      <p class="small" style="margin-top:10px">Dica: preencha a data prevista para alertas automáticos de atraso.</p>
     </div>
 
     <!-- Notificações de carrinhos não retornados -->
@@ -87,7 +89,7 @@
 
     <!-- Carrinhos em uso -->
     <div class="card">
-      <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="flex" style="margin-bottom:12px">
         <strong>Carrinhos em Uso</strong>
         <span class="pill right" id="countInUse">0</span>
       </div>
@@ -111,7 +113,7 @@
 
     <!-- Histórico -->
     <div class="card">
-      <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="flex" style="margin-bottom:12px">
         <strong>Histórico de Registros</strong>
         <span class="pill right" id="countHistory">0</span>
       </div>
@@ -132,9 +134,11 @@
       </div>
     </div>
 
-    <div class="small muted" style="text-align:center;margin-top:8px">Dados salvos localmente no seu navegador (localStorage). Use 'Limpar dados' para reiniciar.</div>
+    <div class="small muted" style="text-align:center;margin-top:8px">
+      Dados salvos localmente no navegador (localStorage). Use 'Limpar dados' para reiniciar.
+    </div>
 
-    <div style="display:flex;gap:8px;margin-top:10px">
+    <div class="flex" style="margin-top:16px; gap:10px; justify-content:center;">
       <button id="btnClear" class="btn btn-ghost">Limpar dados</button>
       <button id="btnSeed" class="btn btn-ghost">Carregar exemplos</button>
       <button id="btnExport" class="btn btn-primary">Exportar CSV</button>
@@ -143,7 +147,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'registroCarrinhos_v1';
+    const STORAGE_KEY = 'registroCarrinhos_v2';
 
     const nomeEl = document.getElementById('nome');
     const c1El = document.getElementById('c1');
@@ -160,48 +164,58 @@
     const btnSeed = document.getElementById('btnSeed');
     const btnExport = document.getElementById('btnExport');
 
+    // Função para corrigir problema de fuso horário
+    function toDisplayDate(iso){
+      if(!iso) return '-';
+      const [y,m,d] = iso.split('-');
+      const date = new Date(y, m-1, d); // mês 0-based
+      return date.toLocaleDateString('pt-BR');
+    }
+
     function formatDateToInput(d = new Date()){
       const yyyy = d.getFullYear();
       const mm = String(d.getMonth()+1).padStart(2,'0');
       const dd = String(d.getDate()).padStart(2,'0');
       return `${yyyy}-${mm}-${dd}`;
     }
+
     dataSaidaEl.value = formatDateToInput();
 
-    function loadData(){
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    }
-    function saveData(arr){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-    }
+    function loadData(){ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    function saveData(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
     function uid(){ return 'id_' + Math.random().toString(36).slice(2,9); }
-    function toDisplayDate(iso){
-      if(!iso) return '-';
-      const d = new Date(iso + 'T00:00:00');
-      return d.toLocaleDateString('pt-BR');
-    }
+
     function isOverdue(item){
-      if(!item.dataPrevista || item.status === 'devolvido') return false;
+      if(!item.dataPrevista || item.status==='devolvido') return false;
       const today = new Date(); today.setHours(0,0,0,0);
-      const prev = new Date(item.dataPrevista + 'T00:00:00');
+      const prev = new Date(item.dataPrevista.split('-')[0], item.dataPrevista.split('-')[1]-1, item.dataPrevista.split('-')[2]);
       return prev < today;
     }
 
     function render(){
       const data = loadData();
-      const inUse = data.filter(r => r.status === 'emuso');
-      const history = data.filter(r => r.status === 'devolvido');
+      const inUse = data.filter(r => r.status==='emuso');
+      const history = data.filter(r => r.status==='devolvido');
       const overdue = inUse.filter(isOverdue);
-      renderNotReturned(overdue);
 
+      // Render alert
+      if(overdue.length){
+        notReturnedContainer.innerHTML = `<div class="alert">
+          <strong>Atenção — ${overdue.length} carrinho(s) com devolução prevista vencida:</strong>
+          <ul style="margin-top:8px">
+          ${overdue.map(r=>`<li><strong>${r.nome}</strong> — ${r.carrinho1}${r.carrinho2?' / '+r.carrinho2:''} — saída: ${toDisplayDate(r.dataSaida)} — prevista: ${toDisplayDate(r.dataPrevista)}</li>`).join('')}
+          </ul>
+        </div>`;
+      } else notReturnedContainer.innerHTML = '';
+
+      // Carrinhos em uso
       tableInUseBody.innerHTML = '';
-      inUse.forEach(item => {
+      inUse.forEach(item=>{
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${escapeHtml(item.nome)}</td>
           <td>${escapeHtml(item.carrinho1)}</td>
-          <td>${escapeHtml(item.carrinho2 || '-')}</td>
+          <td>${escapeHtml(item.carrinho2||'-')}</td>
           <td>${toDisplayDate(item.dataSaida)}</td>
           <td>${toDisplayDate(item.dataPrevista)}</td>
           <td><span class="badge inuse">Em uso</span></td>
@@ -213,13 +227,14 @@
         tableInUseBody.appendChild(tr);
       });
 
+      // Histórico
       tableHistoryBody.innerHTML = '';
-      history.forEach(item => {
+      history.forEach(item=>{
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${escapeHtml(item.nome)}</td>
           <td>${escapeHtml(item.carrinho1)}</td>
-          <td>${escapeHtml(item.carrinho2 || '-')}</td>
+          <td>${escapeHtml(item.carrinho2||'-')}</td>
           <td>${toDisplayDate(item.dataSaida)}</td>
           <td>${toDisplayDate(item.dataDevolucao)}</td>
           <td><span class="badge returned">Devolvido</span></td>
@@ -231,95 +246,95 @@
       countHistory.textContent = history.length;
     }
 
-    function renderNotReturned(list){
-      if(list.length === 0){ notReturnedContainer.innerHTML = ''; return; }
-      let html = `<div class="alert"><strong>Atenção — ${list.length} carrinho(s) com devolução prevista vencida:</strong><ul style="margin-top:8px">`;
-      list.forEach(item => {
-        html += `<li><strong>${escapeHtml(item.nome)}</strong> — ${escapeHtml(item.carrinho1)}${item.carrinho2 ? ' / ' + escapeHtml(item.carrinho2) : ''} — saída: ${toDisplayDate(item.dataSaida)} — prevista: ${toDisplayDate(item.dataPrevista)}</li>`;
-      });
-      html += `</ul></div>`;
-      notReturnedContainer.innerHTML = html;
-    }
+    function escapeHtml(str=''){ return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-    function escapeHtml(str = ''){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-    btnRegistrar.addEventListener('click', () => {
+    // Registrar saída
+    btnRegistrar.addEventListener('click',()=>{
       const nome = nomeEl.value.trim();
       const carr1 = c1El.value.trim();
-      const carr2 = c2El.value.trim() || null;
+      const carr2 = c2El.value.trim()||null;
       const dataSaida = dataSaidaEl.value;
-      const dataPrev = dataPrevEl.value || null;
+      const dataPrev = dataPrevEl.value||null;
+      if(!nome||!carr1||!dataSaida){ alert('Preencha pelo menos: Funcionário, Carrinho 1 e Data de Saída.'); return; }
 
-      if(!nome || !carr1 || !dataSaida){ alert('Preencha pelo menos: Funcionário, Carrinho 1 e Data de Saída.'); return; }
-
+      const registro = { id:uid(), nome, carrinho1:carr1, carrinho2:carr2, dataSaida, dataPrevista:dataPrev, dataDevolucao:null, status:'emuso' };
       const data = loadData();
-      const registro = { id: uid(), nome, carrinho1: carr1, carrinho2: carr2, dataSaida, dataPrevista: dataPrev, dataDevolucao: null, status: 'emuso' };
       data.unshift(registro);
       saveData(data);
-      nomeEl.value = ''; c1El.value = ''; c2El.value = ''; dataPrevEl.value = '';
+
+      nomeEl.value=''; c1El.value=''; c2El.value=''; dataPrevEl.value='';
       render();
     });
 
-    document.addEventListener('click', (ev) => {
+    // Ações de devolução e edição
+    document.addEventListener('click',(ev)=>{
       const btn = ev.target.closest('button'); if(!btn) return;
       const action = btn.getAttribute('data-action'); const id = btn.getAttribute('data-id');
-      if(action === 'devolver') handleDevolver(id);
-      if(action === 'editar') handleEditar(id);
+      if(action==='devolver') handleDevolver(id);
+      if(action==='editar') handleEditar(id);
     });
 
     function handleDevolver(id){
       const data = loadData();
-      const idx = data.findIndex(r => r.id === id);
-      if(idx === -1) return alert('Registro não encontrado.');
+      const idx = data.findIndex(r=>r.id===id); if(idx===-1) return alert('Registro não encontrado.');
       const hoje = formatDateToInput();
       const input = prompt('Informe a data de devolução (AAAA-MM-DD)', hoje);
       if(!input) return;
-      if(!/^\d{4}-\d{2}-\d{2}$/.test(input)) return alert('Formato de data inválido. Use YYYY-MM-DD.');
-      data[idx].dataDevolucao = input;
-      data[idx].status = 'devolvido';
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(input)) return alert('Formato inválido. Use YYYY-MM-DD.');
+      data[idx].dataDevolucao=input;
+      data[idx].status='devolvido';
       saveData(data);
       render();
     }
 
     function handleEditar(id){
       const data = loadData();
-      const idx = data.findIndex(r => r.id === id);
-      if(idx === -1) return alert('Registro não encontrado.');
+      const idx = data.findIndex(r=>r.id===id); if(idx===-1) return alert('Registro não encontrado.');
       const r = data[idx];
-      const nome = prompt('Editar nome', r.nome); if(nome === null) return;
-      const c1 = prompt('Editar carrinho 1', r.carrinho1); if(c1 === null) return;
-      const c2 = prompt('Editar carrinho 2 (vazio = nenhum)', r.carrinho2 || ''); if(c2 === null) return;
-      const dataPrev = prompt('Editar data prevista de devolução (YYYY-MM-DD) ou vazio', r.dataPrevista || ''); if(dataPrev === null) return;
-      r.nome = nome.trim() || r.nome;
-      r.carrinho1 = c1.trim() || r.carrinho1;
-      r.carrinho2 = c2.trim() || null;
-      r.dataPrevista = dataPrev.trim() || null;
+      const nome = prompt('Editar nome', r.nome); if(nome===null) return;
+      const c1 = prompt('Editar carrinho 1', r.carrinho1); if(c1===null) return;
+      const c2 = prompt('Editar carrinho 2 (vazio = nenhum)', r.carrinho2||''); if(c2===null) return;
+      const dataPrev = prompt('Editar data prevista de devolução (YYYY-MM-DD) ou vazio', r.dataPrevista||''); if(dataPrev===null) return;
+      r.nome = nome.trim()||r.nome;
+      r.carrinho1=c1.trim()||r.carrinho1;
+      r.carrinho2=c2.trim()||null;
+      r.dataPrevista = dataPrev.trim()||null;
       saveData(data); render();
     }
 
-    btnClear.addEventListener('click', () => { if(!confirm('Remover todos os registros?')) return; localStorage.removeItem(STORAGE_KEY); render(); });
+    // Limpar dados
+    btnClear.addEventListener('click',()=>{ if(confirm('Remover todos os registros?')){ localStorage.removeItem(STORAGE_KEY); render(); } });
 
-    btnSeed.addEventListener('click', () => {
+    // Exemplos
+    btnSeed.addEventListener('click',()=>{
       if(!confirm('Carregar exemplos de teste (substitui os dados atuais)?')) return;
       const examples = [
-        { id: uid(), nome:'João Silva', carrinho1:'A001', carrinho2:'A002', dataSaida:'2023-06-15', dataPrevista:'2023-06-16', dataDevolucao:null, status:'emuso' },
-        { id: uid(), nome:'Maria Santos', carrinho1:'B003', carrinho2:null, dataSaida:'2023-06-16', dataPrevista:'2023-06-16', dataDevolucao:null, status:'emuso' },
-        { id: uid(), nome:'Pedro Costa', carrinho1:'C005', carrinho2:'C006', dataSaida:'2023-06-16', dataPrevista:'2023-06-18', dataDevolucao:null, status:'emuso' },
-        { id: uid(), nome:'Ana Oliveira', carrinho1:'D007', carrinho2:'D008', dataSaida:'2023-06-10', dataPrevista:'2023-06-12', dataDevolucao:'2023-06-12', status:'devolvido' },
-        { id: uid(), nome:'Carlos Mendes', carrinho1:'A010', carrinho2:null, dataSaida:'2023-06-11', dataPrevista:'2023-06-13', dataDevolucao:'2023-06-13', status:'devolvido' },
-        { id: uid(), nome:'Juliana Freitas', carrinho1:'B012', carrinho2:'B013', dataSaida:'2023-06-12', dataPrevista:'2023-06-14', dataDevolucao:'2023-06-14', status:'devolvido' }
+        { id: uid(), nome:'João Silva', carrinho1:'A001', carrinho2:'A002', dataSaida:'2023-10-01', dataPrevista:'2023-10-02', dataDevolucao:null, status:'emuso' },
+        { id: uid(), nome:'Maria Santos', carrinho1:'B003', carrinho2:null, dataSaida:'2023-10-02', dataPrevista:'2023-10-02', dataDevolucao:null, status:'emuso' },
+        { id: uid(), nome:'Pedro Costa', carrinho1:'C005', carrinho2:'C006', dataSaida:'2023-10-02', dataPrevista:'2023-10-04', dataDevolucao:null, status:'emuso' },
+        { id: uid(), nome:'Ana Oliveira', carrinho1:'D007', carrinho2:'D008', dataSaida:'2023-09-28', dataPrevista:'2023-09-30', dataDevolucao:'2023-09-30', status:'devolvido' }
       ];
       saveData(examples); render();
     });
 
     // Exportar CSV
-    function exportCSV() {
+    function exportCSV(){
       const data = loadData();
-      if (data.length === 0) { alert("Nenhum dado para exportar!"); return; }
-      const headers = ["ID","Funcionário","Carrinho 1","Carrinho 2","Data Saída","Data Prevista","Data Devolução","Status"];
-      const rows = data.map(r => [r.id,r.nome,r.carrinho1,r.carrinho2 || "",r.dataSaida,r.dataPrevista || "",r.dataDevolucao || "",r.status]);
-      let csvContent = [headers,...rows].map(e => e.join(";")).join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("
+      if(!data.length){ alert("Nenhum dado para exportar!"); return; }
+      const headers=["ID","Funcionário","Carrinho 1","Carrinho 2","Data Saída","Data Prevista","Data Devolução","Status"];
+      const rows=data.map(r=>[r.id,r.nome,r.carrinho1,r.carrinho2||"",r.dataSaida,r.dataPrevista||"",r.dataDevolucao||"",r.status]);
+      let csvContent=[headers,...rows].map(e=>e.join(";")).join("\n");
+      const blob=new Blob([csvContent],{type:"text/csv;charset=utf-8;"});
+      const link=document.createElement("a");
+      const url=URL.createObjectURL(blob);
+      link.setAttribute("href",url);
+      link.setAttribute("download","registro_carrinhos.csv");
+      document.body.appendChild(link); link.click(); document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+    btnExport.addEventListener('click', exportCSV);
 
-
+    render();
+  </script>
+</body>
+</html>
