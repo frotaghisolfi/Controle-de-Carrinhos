@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Controle de Carrinhos - Compartilhado</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+  body { font-family: Arial; margin: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px;}
+  th,td { border:1px solid #ccc; padding:8px; }
+  input { margin: 5px 0; }
+  .btn { padding: 6px 10px; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<h2>Controle de Carrinhos (Compartilhado)</h2>
+
+<form id="formSaida">
+  <input type="text" id="funcionario" placeholder="Funcionário" required><br>
+  <input type="text" id="carrinho1" placeholder="Carrinho 1" required><br>
+  <input type="text" id="carrinho2" placeholder="Carrinho 2 (opcional)"><br>
+  <input type="date" id="dataSaida" required><br>
+  <button type="submit" class="btn">Registrar Saída</button>
+</form>
+
+<h3>Registros Ativos</h3>
+<table id="tblAtivos"><thead>
+<tr><th>Funcionário</th><th>Carrinho1</th><th>Carrinho2</th><th>Data Saída</th><th>Ação</th></tr></thead>
+<tbody></tbody></table>
+
+<h3>Histórico</h3>
+<table id="tblHist"><thead>
+<tr><th>Funcionário</th><th>C1</th><th>C2</th><th>Saída</th><th>Devolução</th></tr></thead>
+<tbody></tbody></table>
+
+<script>
+  // TODO: substitua com suas configs do Firebase
+  const firebaseConfig = {
+    apiKey: "SUA_APIKEY",
+    authDomain: "SEU_AUTHDOMAIN",
+    databaseURL: "SUA_DATABASEURL",
+    projectId: "SEU_PROJECTID",
+    storageBucket: "SEU_STORAGEBUCKET",
+    messagingSenderId: "SEU_MSG_ID",
+    appId: "SEU_APPID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  const refAtivos = db.ref('ativos/');
+  const refHist = db.ref('historico/');
+
+  document.getElementById("formSaida").addEventListener("submit", e => {
+    e.preventDefault();
+    const novo = {
+      funcionario: document.getElementById("funcionario").value,
+      c1: document.getElementById("carrinho1").value,
+      c2: document.getElementById("carrinho2").value,
+      saida: document.getElementById("dataSaida").value,
+      devolucao: null
+    };
+    refAtivos.push(novo);
+    document.getElementById("formSaida").reset();
+  });
+
+  // renderiza ativos
+  refAtivos.on('value', snapshot => {
+    const tb = document.querySelector("#tblAtivos tbody");
+    tb.innerHTML = "";
+    snapshot.forEach(child => {
+      const item = child.val();
+      const id = child.key;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${item.funcionario}</td>
+        <td>${item.c1}</td>
+        <td>${item.c2 || ""}</td>
+        <td>${item.saida}</td>
+        <td><button onclick="devolver('${id}', '${item.funcionario}', '${item.c1}', '${item.c2}', '${item.saida}')">Devolver</button></td>
+      `;
+      tb.appendChild(tr);
+    });
+  });
+
+  // devolução
+  function devolver(id, func, c1, c2, saida) {
+    const now = new Date().toISOString().split('T')[0];
+    refHist.push({funcionario: func, c1, c2, saida, devolucao: now});
+    refAtivos.child(id).remove();
+  }
+
+  // renderiza histórico
+  refHist.on('value', snapshot => {
+    const tb = document.querySelector("#tblHist tbody");
+    tb.innerHTML = "";
+    snapshot.forEach(child => {
+      const item = child.val();
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${item.funcionario}</td>
+        <td>${item.c1}</td>
+        <td>${item.c2 || ""}</td>
+        <td>${item.saida}</td>
+        <td>${item.devolucao}</td>
+      `;
+      tb.appendChild(tr);
+    });
+  });
+</script>
+
+</body>
+</html>
+
+
